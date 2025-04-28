@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+html {
+    /* height: 100%;
+    width: 100%; */
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 15vw;
+    grid-template-rows: 10vh 90vh;
+}
+
+.banner {
+    border: 1px solid black;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.sidebar {
+    border: 1px solid black;
+}
+
+.listContainer {
+    border: 1px solid black;
+}
