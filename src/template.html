@@ -8,7 +8,23 @@
 </head>
 <body>
     <div class="banner"></div>
-    <div class="sidebar"></div>
+    <div class="sidebar">
+        <button id="newListButton">New List</button>
+        <dialog id="addListDialog">
+            <form action="#" formmethod="dialog">
+                <div class="entry">
+                    <label for="listName">List Name: </label>
+                    <input type="text" name="listName" id="listName" required>
+                </div>
+                <div class="closeSubmit">
+                    <button id="cancel" value="cancel" formmethod="dialog">Cancel</button>
+                    <button id="submitListDialog" value="default" formmethod="dialog">Submit</button>
+                </div>
+            </form>
+        </dialog>
+        
+        <button id="newTaskButton">New Task</button>
+    </div>
     <div class="listContainer"></div>
 </body>
 </html>

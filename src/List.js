@@ -4,15 +4,15 @@ export class List{
         this.taskList = [];
     }
 
-    addToList(task){
-        this.taskList.push(task);
+    addToList(element){
+        this.taskList.push(element);
     }
 
-    deleteFromList(task){
-        if(this.taskList.indexOf(task)===-1){
+    deleteFromList(element){
+        if(this.taskList.indexOf(element)===-1){
             return false;
         }
-        this.taskList.splice(this.taskList.indexOf(task),1);
+        this.taskList.splice(this.taskList.indexOf(element),1);
     }
 }
 

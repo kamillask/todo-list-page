@@ -1,8 +1,9 @@
 import "./styles.css";
 import { List } from "./List";
 import { Task } from "./Task";
+import { DomHandler} from "./DomHandler";
 
-// const listContainer = new List("Container");
+const listContainer = new List("Container");
 // const defaultList = new List("Default");
 // const schoolWorkList = new List("School Work");
 // listContainer.addToList(defaultList);
