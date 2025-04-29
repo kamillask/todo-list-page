@@ -6,51 +6,66 @@
 //delete task
 //expand todo
 
-class DomHandler {
+export class DomHandler {
+
+    newListButton = document.querySelector("#newListButton");
+    newTaskButton = document.querySelector("#newTaskButton");
+    addListDialog = document.querySelector("#addListDialog");
+    addTaskDialog = document.querySelector("#addTaskDialog");
+    cancelDialog = document.querySelector("#cancel");
+    submitListDialog = document.querySelector("#submitListDialog");
+    listContainer = document.querySelector("#listContainer");
 
     constructor(listHandler, taskHandler){
         this.listHandler = listHandler;
         this.taskHandler = taskHandler;
     }
 
-    createList(name){
-        const listContainer = document.querySelector(".listContainer");
-        const newList = document.createElement("div");
-        newList.className(name);
+    createItem(type, className){
+        const element = document.createElement(type);
+        element.className = className;
+        return element;
+    }
 
+    createDOMList(name){
+        const newList = this.createItem("div", name);
         listContainer.appendChild(newList);
     }
 
+    clearDOM(domElement){
+        const content = document.getElementById(domElement);
+        while(content.firstChild){
+            content.removeChild(content.firstChild);
+        }
+    }
+
     showLists(){
+        this.clearDOM("listContainer");
         for(let list in this.listHandler.taskList){
-            const listContainer = document.querySelector(".listContainer");
-            const listName = document.createElement("div");
-            listName.className = this.listHandler.taskList[list].name;
+            const listName = this.createItem("div", this.listHandler.taskList[list].name);
+            listName.textContent = this.listHandler.taskList[list].name;
             listContainer.appendChild(listName);
         }
     }
 
+    setUpEventListeners(){
+        this.newListButton.addEventListener("click", () => {
+            addListDialog.showModal();
+        });
+        
+        this.submitListDialog.addEventListener("click", () => {
+            const listNameInput = document.querySelector("#listName").value;
+            const listInput = this.listHandler.createList(listNameInput);
+            this.listHandler.addToList(listInput);
+            this.showLists();
+        });
+        
+        this.cancelDialog.addEventListener("click", () => {
+            addListDialog.close();
+        })
+        
+        this.newTaskButton.addEventListener("click", () => {
+            addTaskDialog.showModal();
+        });
+    }
 }
-
-const newListButton = document.querySelector("#newListButton");
-const newTaskButton = document.querySelector("#newTaskButton");
-const addListDialog = document.querySelector("#addListDialog");
-const cancelDialog = document.querySelector("#cancel");
-const submitListDialog = document.querySelector("#submitListDialog");
-
-
-newListButton.addEventListener("click", () => {
-    addListDialog.showModal();
-});
-
-submitListDialog.addEventListener("click", () => {
-    let listNameInput = document.querySelector("#listName");
-    let listInput = new List(listNameInput.value); //this doesnt work
-    listHandler.addToList(listInput);
-
-});
-
-newTaskButton.addEventListener("click", () => {
-
-});
-

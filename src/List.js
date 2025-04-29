@@ -4,6 +4,10 @@ export class List{
         this.taskList = [];
     }
 
+    createList(name){
+        return new List(name);
+    }
+
     addToList(element){
         this.taskList.push(element);
     }

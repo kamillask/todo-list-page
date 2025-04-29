@@ -7,8 +7,8 @@
     <title>Todo List</title>
 </head>
 <body>
-    <div class="banner"></div>
-    <div class="sidebar">
+    <div id="banner"></div>
+    <div id="sidebar">
         <button id="newListButton">New List</button>
         <dialog id="addListDialog">
             <form action="#" formmethod="dialog">
@@ -24,7 +24,27 @@
         </dialog>
         
         <button id="newTaskButton">New Task</button>
+        <dialog id="addTaskDialog">
+            <form action="#" formmethod="dialog">
+                <div class="entry">
+                    <label for="taskName">Task Name: </label>
+                    <input type="text" name="taskName" id="taskName" required>
+                </div>
+                <div class="entry">
+                    <label for="taskDescription">Description: </label>
+                    <input type="text" name="taskDescription" id="taskDescription" required>
+                </div>
+                <div class="entry">
+                    <label for="dueDate">Due Date: </label>
+                    <input type="text" name="dueDate" id="dueDate" required>
+                </div>
+                <div class="closeSubmit">
+                    <button id="cancel" value="cancel" formmethod="dialog">Cancel</button>
+                    <button id="submitListDialog" value="default" formmethod="dialog">Submit</button>
+                </div>
+            </form>
+        </dialog>
     </div>
-    <div class="listContainer"></div>
+    <div id="listContainer"></div>
 </body>
 </html>

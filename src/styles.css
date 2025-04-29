@@ -16,13 +16,13 @@ body {
     grid-template-rows: 10vh 90vh;
 }
 
-.banner {
+#banner {
     border: 1px solid black;
     grid-column-start: 1;
     grid-column-end: 3;
 }
 
-.sidebar {
+#sidebar {
     border: 1px solid black;
     display: flex;
     flex-direction: column;
@@ -31,6 +31,6 @@ body {
     padding: 10px;
 }
 
-.listContainer {
+#listContainer {
     border: 1px solid black;
 }
