@@ -1,11 +1,11 @@
 export class Task {
-    constructor(title, desc, dueDate){
-        this.title = title;
+    constructor(name, desc, dueDate){
+        this.name = name;
         this.desc = desc;
         this.dueDate = dueDate;
     }
 
-    createTask(newTitle, newDesc, newDate){
-        return new Task(newTitle, newDesc, newDate);
+    createTask(newName, newDesc, newDate){
+        return new Task(newName, newDesc, newDate);
     }
 }

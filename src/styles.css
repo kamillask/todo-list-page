@@ -33,4 +33,44 @@ body {
 
 #listContainer {
     border: 1px solid black;
+    display: flex;
+    padding: 10px;
+}
+
+.list {
+    width: 20vw
+}
+
+#addListDialog, #addTaskDialog {
+    padding: 20px;
+    font-size: 1.5rem;
+    border-radius: 10px;
+    border: none;
+    box-shadow: inset 0px 0px 10px black;
+    margin: auto;
+}
+
+#addListDialog::backdrop, #addTaskDialog::backdrop {
+    backdrop-filter: blur(2px);
+}
+
+input{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    width: 100%;
+}
+
+.list {
+    color: red;
+    font-size: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.task {
+    color: black;
+    font-size: 15px;
+    border: 1px solid black;
+    border-radius: 5px;
 }

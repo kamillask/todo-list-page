@@ -6,6 +6,8 @@
 //delete task
 //expand todo
 
+import deleteIcon from "./images/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+
 export class DomHandler {
 
     newListButton = document.querySelector("#newListButton");
@@ -24,16 +26,11 @@ export class DomHandler {
         this.taskHandler = taskHandler;
     }
 
-    createItem(domType, elementType){
+    createItem(domType, elementClass){
         const element = document.createElement(domType);
-        element.className = elementType;
+        element.className = elementClass;
         return element;
     }
-
-    // createDOMList(name){
-    //     const newList = this.createItem("div", name);
-    //     listContainer.appendChild(newList);
-    // } *****this was never used
 
     clearDOM(domElement){
         const content = document.getElementById(domElement);
@@ -44,29 +41,54 @@ export class DomHandler {
 
     showLists(){
         this.clearDOM("listContainer");
-        let index = 0;
+        //let index = 0;
         for(let list in this.listHandler.taskList){
             const listName = this.createItem("div", "list");
+
+            const deleteListButton = this.createItem("button", "deleteButton");
+            deleteListButton.setAttribute("title", "Delete List");
+            const deleteListButtonIcon = this.createItem("img", "icon");
+            deleteListButtonIcon.src = deleteIcon;
+            deleteListButton.appendChild(deleteListButtonIcon);
+
             listName.textContent = this.listHandler.taskList[list].name;
-            listName.id = index;
-            // console.log(listName + " index " + index);
-            index++;
+            listName.id = this.listHandler.taskList[list].name;
+            this.showTasks(this.listHandler.taskList[list], listName);
+            // index++;
+            listName.appendChild(deleteListButton);
             listContainer.appendChild(listName);
+            
+        }
+    }
+
+    showTasks(list, container){
+        console.log(list.taskList);
+        for(let task in list.taskList){
+            const taskName = this.createItem("div", "task");
+            console.log(list.taskList[task].name);
+            taskName.textContent = list.taskList[task].name;
+            container.appendChild(taskName);
         }
     }
 
     populateSelect(){
         this.clearDOM("selectList");
-        let index = 0;
+        // let index = 0;
         for(let list in this.listHandler.taskList){
             const listName = this.createItem("option", "select");
             listName.textContent = this.listHandler.taskList[list].name;
-            listName.id = index;
-            console.log(listName.textContent + " index " + index);
-            console.log(listName.id);
-            index++;
+            // listName.id = "select-" + index;
+            // index++;
             this.selectList.appendChild(listName);
         }
+    }
+
+    deleteList(){
+
+    }
+
+    deleteTask(){
+        
     }
 
     setUpEventListeners(){
@@ -76,6 +98,9 @@ export class DomHandler {
         
         this.submitListDialog.addEventListener("click", () => {
             const listNameInput = document.querySelector("#listName").value;
+            if(listNameInput==="") {
+                return;
+            }
             const listInput = this.listHandler.createList(listNameInput);
             this.listHandler.addToList(listInput);
             this.showLists();
@@ -95,17 +120,14 @@ export class DomHandler {
             const taskDescInput = document.querySelector("#taskDescription").value;
             const taskDueDateInput = document.querySelector("#taskDueDate").value;
             const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
-            taskInput.textContent = taskNameInput;
-            //console.log(this.listHandler.taskList.indexOf(this.selectList.value));
-            //console.log(this.listHandler.taskList[this.listHandler.taskList.indexOf(this.selectList.value)]);
-            console.log(this.selectList.value + " index " + this.selectList.value.id);
-            this.listHandler.taskList[this.selectList.value.id].addToList(taskInput); //use id of list, set id as the nth element in the array, seach by id which is the index**************************************************
-            const listToAddTo = document.getElementById(this.listHandler.taskList[this.selectList.value]);
-            listToAddTo.appendChild(taskInput);
+            this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput); 
+            this.showLists();
         });
 
         this.cancelTaskDialog.addEventListener("click", () => {
             this.addTaskDialog.close();
         });
+
+
     }
 }
