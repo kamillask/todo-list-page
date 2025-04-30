@@ -4,4 +4,8 @@ export class Task {
         this.desc = desc;
         this.dueDate = dueDate;
     }
+
+    createTask(newTitle, newDesc, newDate){
+        return new Task(newTitle, newDesc, newDate);
+    }
 }

@@ -4,9 +4,12 @@ import { Task } from "./Task";
 import { DomHandler} from "./DomHandler";
 
 const listContainer = new List("Container");
+listContainer.addToList(new List("Default"));
 const taskHandler = new Task("task handler");
 const domHandler = new DomHandler(listContainer, taskHandler);
 domHandler.setUpEventListeners();
+domHandler.showLists();
+
 
 // const testelement = domHandler.createItem("div", "something");
 // testelement.textContent = "shutup";
