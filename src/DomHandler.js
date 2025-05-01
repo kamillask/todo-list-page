@@ -41,20 +41,25 @@ export class DomHandler {
 
     showLists(){
         this.clearDOM("listContainer");
-        //let index = 0;
+        let index = 0;
         for(let list in this.listHandler.taskList){
             const listName = this.createItem("div", "list");
 
             const deleteListButton = this.createItem("button", "deleteButton");
             deleteListButton.setAttribute("title", "Delete List");
+            deleteListButton.id = "deleteButton-" + index;
             const deleteListButtonIcon = this.createItem("img", "icon");
             deleteListButtonIcon.src = deleteIcon;
+            deleteListButton.addEventListener("click", () => {
+                this.deleteList(this.listHandler.taskList[list]);
+                this.showLists();
+            })
             deleteListButton.appendChild(deleteListButtonIcon);
 
             listName.textContent = this.listHandler.taskList[list].name;
-            listName.id = this.listHandler.taskList[list].name;
+            listName.id = "list-" + index;
             this.showTasks(this.listHandler.taskList[list], listName);
-            // index++;
+            index++;
             listName.appendChild(deleteListButton);
             listContainer.appendChild(listName);
             
@@ -73,22 +78,22 @@ export class DomHandler {
 
     populateSelect(){
         this.clearDOM("selectList");
-        // let index = 0;
+        let index = 0;
         for(let list in this.listHandler.taskList){
             const listName = this.createItem("option", "select");
             listName.textContent = this.listHandler.taskList[list].name;
-            // listName.id = "select-" + index;
-            // index++;
+            listName.id = "select-" + index;
+            index++;
             this.selectList.appendChild(listName);
         }
     }
 
-    deleteList(){
-
+    deleteList(list){
+        this.listHandler.deleteFromList(list);
     }
 
-    deleteTask(){
-        
+    deleteTask(list, task){
+        this.listHandler.taskList[list].deleteFromList(task);
     }
 
     setUpEventListeners(){
@@ -127,6 +132,8 @@ export class DomHandler {
         this.cancelTaskDialog.addEventListener("click", () => {
             this.addTaskDialog.close();
         });
+
+        
 
 
     }
