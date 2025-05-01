@@ -7,6 +7,8 @@
 //expand todo
 
 import deleteIcon from "./images/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+import addIconBox from "./images/add_box_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+import editIcon from "./images/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 
 export class DomHandler {
 
@@ -56,22 +58,51 @@ export class DomHandler {
             })
             deleteListButton.appendChild(deleteListButtonIcon);
 
+            const addTaskToListButton = this.createItem("button", "addTaskToList");
+            addTaskToListButton.setAttribute("title", "Add a task to this List");
+            addTaskToListButton.id = "addTaskToList-" + index;
+            const addTaskToListIcon = this.createItem("img", "icon");
+            addTaskToListIcon.src = addIconBox;
+            const selectedIndex = "select-"+index;
+            addTaskToListButton.addEventListener("click", () => {
+                this.populateSelect();
+                document.getElementById(selectedIndex).setAttribute("selected", "selected");
+                addTaskDialog.showModal();
+            });
+            addTaskToListButton.appendChild(addTaskToListIcon);
+
+
             listName.textContent = this.listHandler.taskList[list].name;
             listName.id = "list-" + index;
-            this.showTasks(this.listHandler.taskList[list], listName);
+            this.showTasks(this.listHandler.taskList[list], listName, index);
             index++;
             listName.appendChild(deleteListButton);
+            listName.appendChild(addTaskToListButton);
             listContainer.appendChild(listName);
             
         }
     }
 
-    showTasks(list, container){
+    showTasks(list, container, index){
         console.log(list.taskList);
         for(let task in list.taskList){
             const taskName = this.createItem("div", "task");
+            taskName.id = "task-"+index;
             console.log(list.taskList[task].name);
             taskName.textContent = list.taskList[task].name;
+            const editTaskButton = this.createItem("button", "icon");
+            editTaskButton.setAttribute("title", "Edit Task");
+            editTaskButton.id = "editTask-"+index;
+            const editTaskIcon = this.createItem("img", "icon");
+            editTaskIcon.src = editIcon;
+            editTaskButton.addEventListener("click", () => {
+                this.populateSelect();
+                document.getElementById("select-"+index).setAttribute("selected", "selected");
+                addTaskDialog.showModal();
+                //currently adds new task, doesnt overwrite current
+            })
+            editTaskButton.appendChild(editTaskIcon);
+            taskName.appendChild(editTaskButton);
             container.appendChild(taskName);
         }
     }
@@ -119,7 +150,7 @@ export class DomHandler {
             this.populateSelect();
             addTaskDialog.showModal();
         });
-
+    
         this.submitTaskDialog.addEventListener("click", () => {
             const taskNameInput = document.querySelector("#taskName").value;
             const taskDescInput = document.querySelector("#taskDescription").value;
@@ -128,13 +159,9 @@ export class DomHandler {
             this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput); 
             this.showLists();
         });
-
+    
         this.cancelTaskDialog.addEventListener("click", () => {
             this.addTaskDialog.close();
         });
-
-        
-
-
     }
 }
