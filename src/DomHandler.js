@@ -72,15 +72,29 @@ export class DomHandler {
             });
             addTaskToListButton.appendChild(addTaskToListIcon);
 
+            const editListButton = this.createItem("button", "icon");
+            editListButton.setAttribute("title", "Edit List");
+            editListButton.id = "editList-"+index;
+            const editListIcon = this.createItem("img", "icon");
+            editListIcon.src = editIcon;
+            const editIndex = index;
+            editListButton.addEventListener("click", () => {
+                this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
+                this.submitListDialog.setAttribute("data-edit-index", editIndex);
+                this.addListDialog.showModal();
+            })
+            editListButton.appendChild(editListIcon);
+
 
             listName.textContent = this.listHandler.taskList[list].name;
             listName.id = "list-" + index;
             this.showTasks(this.listHandler.taskList[list], listName, index);
-            index++;
+            
+            listName.appendChild(editListButton);
             listName.appendChild(deleteListButton);
             listName.appendChild(addTaskToListButton);
             listContainer.appendChild(listName);
-            
+            index++;
         }
     }
 
@@ -135,6 +149,7 @@ export class DomHandler {
 
     setUpEventListeners(){
         this.newListButton.addEventListener("click", () => {
+            this.submitListDialog.setAttribute("data-submit-type", "submitNew");
             addListDialog.showModal();
         });
         
@@ -143,8 +158,14 @@ export class DomHandler {
             if(listNameInput==="") {
                 return;
             }
-            const listInput = this.listHandler.createList(listNameInput);
-            this.listHandler.addToList(listInput);
+            if(this.submitListDialog.dataset.submitType==="submitEdit"){
+                this.listHandler.taskList[this.submitListDialog.dataset.editIndex].name=listNameInput;
+            }
+            if(this.submitListDialog.dataset.submitType==="submitNew"){
+                const listInput = this.listHandler.createList(listNameInput);
+                this.listHandler.addToList(listInput);
+            }
+            
             this.showLists();
         });
         
