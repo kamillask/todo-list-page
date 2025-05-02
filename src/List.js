@@ -19,11 +19,8 @@ export class List{
         this.taskList.splice(this.taskList.indexOf(element),1);
     }
 
-    replace(element, index){
-        if(this.taskList.indexOf(element)===-1){
-            return false;
-        }
-        this.taskList.splice(this.taskList.indexOf(element),1,index);
+    replace(index, element){
+        this.taskList.splice(index, 1, element);
     }
 }
 

@@ -67,6 +67,7 @@ export class DomHandler {
             addTaskToListButton.addEventListener("click", () => {
                 this.populateSelect();
                 document.getElementById(selectedIndex).setAttribute("selected", "selected");
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
                 addTaskDialog.showModal();
             });
             addTaskToListButton.appendChild(addTaskToListIcon);
@@ -83,27 +84,32 @@ export class DomHandler {
         }
     }
 
-    showTasks(list, container, index){
-        console.log(list.taskList);
+    showTasks(list, container, listIndex){
+        let index = 0;
         for(let task in list.taskList){
             const taskName = this.createItem("div", "task");
             taskName.id = "task-"+index;
-            console.log(list.taskList[task].name);
             taskName.textContent = list.taskList[task].name;
             const editTaskButton = this.createItem("button", "icon");
             editTaskButton.setAttribute("title", "Edit Task");
             editTaskButton.id = "editTask-"+index;
             const editTaskIcon = this.createItem("img", "icon");
             editTaskIcon.src = editIcon;
+            const indexToEdit = index;
             editTaskButton.addEventListener("click", () => {
                 this.populateSelect();
-                document.getElementById("select-"+index).setAttribute("selected", "selected");
+                document.getElementById("select-"+listIndex).setAttribute("selected", "selected");
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");
+                
+                this.submitTaskDialog.setAttribute("data-edit-index", indexToEdit);
+                
                 addTaskDialog.showModal();
-                //currently adds new task, doesnt overwrite current
             })
+            index++;
             editTaskButton.appendChild(editTaskIcon);
             taskName.appendChild(editTaskButton);
             container.appendChild(taskName);
+            
         }
     }
 
@@ -148,6 +154,7 @@ export class DomHandler {
         
         this.newTaskButton.addEventListener("click", () => {
             this.populateSelect();
+            this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
             addTaskDialog.showModal();
         });
     
@@ -155,8 +162,16 @@ export class DomHandler {
             const taskNameInput = document.querySelector("#taskName").value;
             const taskDescInput = document.querySelector("#taskDescription").value;
             const taskDueDateInput = document.querySelector("#taskDueDate").value;
-            const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
-            this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput); 
+            if(this.submitTaskDialog.dataset.submitType==="submitNew"){
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
+                this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput);
+            }
+            if(this.submitTaskDialog.dataset.submitType==="submitEdit"){
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
+                console.log(taskInput);
+                this.listHandler.taskList[this.selectList.selectedIndex].replace(this.submitTaskDialog.dataset.editIndex ,taskInput);
+                console.log(this.listHandler.taskList[this.selectList.selectedIndex]);
+            }
             this.showLists();
         });
     
