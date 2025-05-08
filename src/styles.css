@@ -47,7 +47,7 @@ body {
 }
 
 #addListDialog::backdrop, #addTaskDialog::backdrop {
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1px);
 }
 
 input{
@@ -73,6 +73,12 @@ input{
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.taskMain {
+    display: flex;
     align-items: center;
 }
 

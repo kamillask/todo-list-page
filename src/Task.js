@@ -12,9 +12,9 @@ export class Task {
 
     toggleComplete(){
         if (this.isComplete==true){
-            this.isComplete==false;
+            this.isComplete=false;
         } else{
-            this.isComplete==true;
+            this.isComplete=true;
         }
     }
 }
