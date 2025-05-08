@@ -9,4 +9,12 @@ export class Task {
     createTask(newName, newDesc, newDate){
         return new Task(newName, newDesc, newDate);
     }
+
+    toggleComplete(){
+        if (this.isComplete==true){
+            this.isComplete==false;
+        } else{
+            this.isComplete==true;
+        }
+    }
 }

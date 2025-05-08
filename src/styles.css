@@ -66,10 +66,17 @@ input{
     padding: 10px;
 }
 
-.task {
+.taskEntity {
+    display: flex;
     color: black;
     font-size: 15px;
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
+    align-items: center;
+}
+
+button[id^="checked-"]{
+    border: none;
+    background-color: transparent;
 }

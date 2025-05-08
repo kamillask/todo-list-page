@@ -10,7 +10,7 @@ import deleteIcon from "./images/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.p
 import addIconBox from "./images/add_box_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import editIcon from "./images/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import uncheckedIcon from "./images/radio_button_unchecked_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
-import checked from "./images/radio_button_checked_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+import checkedIcon from "./images/radio_button_checked_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 
 export class DomHandler {
 
@@ -109,14 +109,21 @@ export class DomHandler {
     showTasks(list, container, listIndex){
         let index = 0;
         for(let task in list.taskList){
+            const taskEntity = this.createItem("div", "taskEntity");
             const checkedButton = this.createItem("button", "icon");
             checkedButton.setAttribute("title", "Mark as completed");
-            checkedButton.id = task; //task  = index
-            const checkButtonIcon = this.createItem("img", "icon");
-            checkButtonIcon.src = uncheckedIcon;
-            checkButton.addEventListener("click", () => {
-                
+            checkedButton.id = "checked-"+task; //task  = index
+            const checkedButtonIcon = this.createItem("img", "icon");
+            checkedButtonIcon.src = uncheckedIcon;
+            checkedButton.addEventListener("click", () => {
+                list.taskList[task].toggleComplete();
+                if(list.taskList[task].isComplete == false){
+                    checkedButtonIcon.src = uncheckedIcon;
+                } else{
+                    checkedButtonIcon.src = checkedIcon;
+                }
             })
+            checkedButton.appendChild(checkedButtonIcon);
 
             const taskName = this.createItem("div", "task");
             taskName.id = "task-"+index;
@@ -150,7 +157,9 @@ export class DomHandler {
             deleteTaskButton.appendChild(deleteTaskIcon);
             taskName.appendChild(editTaskButton);
             taskName.appendChild(deleteTaskButton);
-            container.appendChild(taskName);
+            taskEntity.appendChild(checkedButton);
+            taskEntity.appendChild(taskName);
+            container.appendChild(taskEntity);
         }
     }
 
