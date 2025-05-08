@@ -9,6 +9,8 @@
 import deleteIcon from "./images/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import addIconBox from "./images/add_box_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import editIcon from "./images/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+import uncheckedIcon from "./images/radio_button_unchecked_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
+import checked from "./images/radio_button_checked_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 
 export class DomHandler {
 
@@ -107,6 +109,15 @@ export class DomHandler {
     showTasks(list, container, listIndex){
         let index = 0;
         for(let task in list.taskList){
+            const checkedButton = this.createItem("button", "icon");
+            checkedButton.setAttribute("title", "Mark as completed");
+            checkedButton.id = task; //task  = index
+            const checkButtonIcon = this.createItem("img", "icon");
+            checkButtonIcon.src = uncheckedIcon;
+            checkButton.addEventListener("click", () => {
+                
+            })
+
             const taskName = this.createItem("div", "task");
             taskName.id = "task-"+index;
             taskName.textContent = list.taskList[task].name;
