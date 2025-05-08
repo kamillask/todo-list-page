@@ -53,7 +53,9 @@ export class DomHandler {
         let index = 0;
         for(let list in this.listHandler.taskList){
             const listEntity = this.createItem("div", "listEntity");
-            const listName = this.createItem("div", "list");
+            const listName = this.createItem("div", "listName");
+            const listControls = this.createItem("div", "listControls");
+            const listMain = this.createItem("div", "listMain");
 
 
             const deleteListButton = this.createButton("delete", "Delete List", deleteIcon, index);
@@ -80,13 +82,14 @@ export class DomHandler {
             })
 
             listName.textContent = this.listHandler.taskList[list].name;
-            listName.id = "list-" + index;
-            listName.appendChild(editListButton);
-            listName.appendChild(deleteListButton);
-            listName.appendChild(addTaskToListButton);
-            this.showTasks(this.listHandler.taskList[list], listName, index);
-
-            listEntity.appendChild(listName);
+            listEntity.id = "list-" + index;
+            listControls.appendChild(editListButton);
+            listControls.appendChild(deleteListButton);
+            listControls.appendChild(addTaskToListButton);
+            listMain.appendChild(listName);
+            listMain.appendChild(listControls);
+            listEntity.appendChild(listMain);
+            this.showTasks(this.listHandler.taskList[list], listEntity, index);
             listContainer.appendChild(listEntity);
             index++;
         }
@@ -99,19 +102,19 @@ export class DomHandler {
             const taskControls = this.createItem("div", "taskControls");
             const taskMain = this.createItem("div", "taskMain");
 
-            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, task);
+            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, listIndex+task);
             checkedButton.addEventListener("click", () => {
                 list.taskList[task].toggleComplete();
                 console.log(list.taskList[task].isComplete);
                 if(list.taskList[task].isComplete == false){
-                    document.getElementById("checkIcon-"+task).src = uncheckedIcon;
+                    document.getElementById("checkIcon-"+listIndex+task).src = uncheckedIcon;
                 } else{
-                    document.getElementById("checkIcon-"+task).src = checkedIcon;
+                    document.getElementById("checkIcon-"+listIndex+task).src = checkedIcon;
                 }
             })
 
             const taskName = this.createItem("div", "task");
-            taskName.id = "task-"+index;
+            taskName.id = "task-"+listIndex+index;
             taskName.textContent = list.taskList[task].name;
 
             const editTaskButton = this.createButton("editTask", "Edit Task", editIcon, task);

@@ -17,13 +17,13 @@ body {
 }
 
 #banner {
-    border: 1px solid black;
+    border: 1px solid purple;
     grid-column-start: 1;
     grid-column-end: 3;
 }
 
 #sidebar {
-    border: 1px solid black;
+    border: 1px solid purple;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -32,9 +32,11 @@ body {
 }
 
 #listContainer {
-    border: 1px solid black;
+    border: 1px solid purple;
     display: flex;
     padding: 10px;
+    background-image: url("./images/coolbackgrounds-topography-micron.svg");
+    gap: 10px;
 }
 
 #addListDialog, #addTaskDialog {
@@ -57,13 +59,24 @@ input{
     width: 100%;
 }
 
-.list {
-    color: red;
-    font-size: 20px;
+.listEntity{
+    padding: 5px;
     border: 1px solid black;
     border-radius: 5px;
-    width: 20vw;
-    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    flex-direction: column;
+    width: 15vw;
+}
+
+.listName {
+    color: purple;
+}
+
+.listMain {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .taskEntity {
@@ -75,11 +88,17 @@ input{
     padding: 10px;
     align-items: center;
     justify-content: space-between;
+    
 }
 
 .taskMain {
     display: flex;
     align-items: center;
+    text-wrap: wrap;
+}
+
+.task {
+    text-wrap: wrap;
 }
 
 button[id^="checked-"]{
