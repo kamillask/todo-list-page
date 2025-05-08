@@ -45,6 +45,7 @@ export class DomHandler {
         this.clearDOM("listContainer");
         let index = 0;
         for(let list in this.listHandler.taskList){
+            const listEntity = this.createItem("div", "listEntity");
             const listName = this.createItem("div", "list");
 
             const deleteListButton = this.createItem("button", "deleteButton");
@@ -85,15 +86,20 @@ export class DomHandler {
             })
             editListButton.appendChild(editListIcon);
 
-
             listName.textContent = this.listHandler.taskList[list].name;
             listName.id = "list-" + index;
-            this.showTasks(this.listHandler.taskList[list], listName, index);
-            
             listName.appendChild(editListButton);
             listName.appendChild(deleteListButton);
             listName.appendChild(addTaskToListButton);
-            listContainer.appendChild(listName);
+            this.showTasks(this.listHandler.taskList[list], listName, index);
+            
+            
+            // listName.appendChild(editListButton);
+            // listName.appendChild(deleteListButton);
+            // listName.appendChild(addTaskToListButton);
+
+            listEntity.appendChild(listName);
+            listContainer.appendChild(listEntity);
             index++;
         }
     }
@@ -104,6 +110,7 @@ export class DomHandler {
             const taskName = this.createItem("div", "task");
             taskName.id = "task-"+index;
             taskName.textContent = list.taskList[task].name;
+
             const editTaskButton = this.createItem("button", "icon");
             editTaskButton.setAttribute("title", "Edit Task");
             editTaskButton.id = "editTask-"+index;
@@ -113,17 +120,26 @@ export class DomHandler {
             editTaskButton.addEventListener("click", () => {
                 this.populateSelect();
                 document.getElementById("select-"+listIndex).setAttribute("selected", "selected");
-                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");
-                
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");               
                 this.submitTaskDialog.setAttribute("data-edit-index", indexToEdit);
-                
                 addTaskDialog.showModal();
+            });
+
+            const deleteTaskButton = this.createItem("button", "icon");
+            deleteTaskButton.setAttribute("title", "Delete Task");
+            deleteTaskButton.id = "deleteTask-"+index;
+            const deleteTaskIcon = this.createItem("img", "icon");
+            deleteTaskIcon.src = deleteIcon;
+            deleteTaskButton.addEventListener("click", () => {
+                this.deleteTask(list, list.taskList[task]);
+                this.showLists();
             })
             index++;
             editTaskButton.appendChild(editTaskIcon);
+            deleteTaskButton.appendChild(deleteTaskIcon);
             taskName.appendChild(editTaskButton);
+            taskName.appendChild(deleteTaskButton);
             container.appendChild(taskName);
-            
         }
     }
 
@@ -144,7 +160,7 @@ export class DomHandler {
     }
 
     deleteTask(list, task){
-        this.listHandler.taskList[list].deleteFromList(task);
+        list.deleteFromList(task);
     }
 
     setUpEventListeners(){

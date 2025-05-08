@@ -3,6 +3,7 @@ export class Task {
         this.name = name;
         this.desc = desc;
         this.dueDate = dueDate;
+        this.isComplete = false;
     }
 
     createTask(newName, newDesc, newDate){
