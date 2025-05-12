@@ -102,6 +102,10 @@ export class DomHandler {
             const taskControls = this.createItem("div", "taskControls");
             const taskMain = this.createItem("div", "taskMain");
 
+            const taskDueDate = this.createItem(("div", "taskDueDate"));
+            taskDueDate.id = "taskDueDate-"+listIndex+index;
+            taskDueDate.textContent = list.taskList[task].dueDate;
+
             const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, listIndex+task);
             checkedButton.addEventListener("click", () => {
                 list.taskList[task].toggleComplete();
@@ -134,8 +138,9 @@ export class DomHandler {
             })
             index++;
 
-            taskMain.appendChild(checkedButton);
+            taskEntity.appendChild(checkedButton);
             taskMain.appendChild(taskName);
+            taskMain.appendChild(taskDueDate);
             taskControls.appendChild(editTaskButton);
             taskControls.appendChild(deleteTaskButton);
             taskEntity.appendChild(taskMain);

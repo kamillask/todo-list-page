@@ -20,6 +20,21 @@ body {
     border: 1px solid purple;
     grid-column-start: 1;
     grid-column-end: 3;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.bannerName {
+    font-size: 8vh;
+    margin-bottom: -10px;
+    color: #323377;
+}
+
+.tagline {
+    font-size: 3vh;
+    color: #414584;
 }
 
 #sidebar {
@@ -55,22 +70,25 @@ body {
 input{
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid black;
+    border: 1px solid #323377;
     width: 100%;
 }
 
 .listEntity{
     padding: 5px;
-    border: 1px solid black;
+    border: 1px solid #323377;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
-    width: 15vw;
+    width: 30vw;
+    gap: 5px;
+    height: min-content;
 }
 
 .listName {
-    color: purple;
+    color: #323377;
+    font-size: 20px;
 }
 
 .listMain {
@@ -83,25 +101,36 @@ input{
     display: flex;
     color: black;
     font-size: 15px;
-    border: 1px solid black;
+    border: 1px solid #323377;
+    background-color: rgba(255, 255, 255, 0.5);
     border-radius: 5px;
     padding: 10px;
     align-items: center;
     justify-content: space-between;
-    
+    overflow-wrap: break-word;
+}
+
+.taskControls{
+    display: flex;
 }
 
 .taskMain {
     display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     text-wrap: wrap;
+    word-break: break-all;
+    gap: 5px;
 }
 
-.task {
-    text-wrap: wrap;
-}
 
-button[id^="checked-"]{
+button[id^="check-"]{
     border: none;
     background-color: transparent;
+    border-radius: 50%;
+}
+
+button[id^="check-"]:hover{
+    box-shadow: 1px 1px 10px #888888;
 }

@@ -5,7 +5,7 @@ import { DomHandler} from "./DomHandler";
 
 const listContainer = new List("Container");
 listContainer.addToList(new List("Default"));
-listContainer.taskList[0].addToList(new Task("Go for a run", " ", ""));
+listContainer.taskList[0].addToList(new Task("Go for a run", " ", "3/24/2025"));
 const taskHandler = new Task("task handler");
 const domHandler = new DomHandler(listContainer, taskHandler);
 domHandler.setUpEventListeners();
