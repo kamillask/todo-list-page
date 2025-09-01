@@ -48,6 +48,16 @@ export class DomHandler {
         return button;
     }
 
+    createEntity(type, item, index){ //type(list or task), and pass the list or task
+        const entity = this.createItem("div", type+"Entity");
+        const name = this.createItem("div", type+"Name");
+        const controls = this.createItem("div", type+"Controls");
+        const main = this.createItem("div", type+"Main");
+
+        const deleteButton = this.createButton("delete", "Delete "+type, deleteIcon, index);
+    }
+
+
     showLists(){
         this.clearDOM("listContainer");
         let index = 0;
@@ -99,6 +109,7 @@ export class DomHandler {
         let index = 0;
         for(let task in list.taskList){
             const taskEntity = this.createItem("div", "taskEntity");
+            const taskName = this.createItem("div", "task");
             const taskControls = this.createItem("div", "taskControls");
             const taskMain = this.createItem("div", "taskMain");
 
@@ -117,15 +128,15 @@ export class DomHandler {
                 }
             })
 
-            const taskName = this.createItem("div", "task");
-            taskName.id = "task-"+listIndex+index;
+            
+            taskEntity.id = "task-"+listIndex+index;
             taskName.textContent = list.taskList[task].name;
 
             const editTaskButton = this.createButton("editTask", "Edit Task", editIcon, task);
             const indexToEdit = index;
             editTaskButton.addEventListener("click", () => {
                 this.populateSelect();
-                document.getElementById("select-"+listIndex).setAttribute("selected", "selected");
+                document.getElementById("select-"+listIndex).setAttribute("selected", "selected");                
                 this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");               
                 this.submitTaskDialog.setAttribute("data-edit-index", indexToEdit);
                 addTaskDialog.showModal();
@@ -167,6 +178,10 @@ export class DomHandler {
 
     deleteTask(list, task){
         list.deleteFromList(task);
+    }
+
+    expandTask(task){
+
     }
 
     setUpEventListeners(){
