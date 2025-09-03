@@ -1,13 +1,14 @@
 export class Task {
-    constructor(name, desc, dueDate){
+    constructor(name, desc, dueDate, listIndex){
         this.name = name;
         this.desc = desc;
         this.dueDate = dueDate;
+        this.listIndex = listIndex;
         this.isComplete = false;
     }
 
-    createTask(newName, newDesc, newDate){
-        return new Task(newName, newDesc, newDate);
+    createTask(newName, newDesc, newDate, newIndex){
+        return new Task(newName, newDesc, newDate, newIndex);
     }
 
     toggleComplete(){

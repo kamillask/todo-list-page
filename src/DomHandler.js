@@ -55,6 +55,59 @@ export class DomHandler {
         const main = this.createItem("div", type+"Main");
 
         const deleteButton = this.createButton("delete", "Delete "+type, deleteIcon, index);
+        deleteButton.addEventListener("click", () => {
+            if(type==="list"){
+                this.deleteList(this.item.taskList[index]);
+                this.showLists();
+            }
+            if(type==="task"){
+                this.deleteTask(item, this.item.taskList[index]);
+                this.showLists();
+            }
+            
+        })
+
+        const addButton = this.createButton("addTaskToList", "Add a task to this list", addIconBox, index);
+        const selectedIndex = "select-"+index;
+        addButton.addEventListener("click", () => {
+            this.populateSelect();
+            document.getElementById(selectedIndex).setAttribute("selected", "selected");
+            this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
+            addTaskDialog.showModal();
+        });
+
+        const editButton = this.createButton("edit"+type, "Edit "+type, editIcon, index);
+        const editIndex = index;
+        editButton.addEventListener("click", () => {
+            if(type==="task"){
+                this.populateSelect();
+                document.getElementById("select-"+listIndex).setAttribute("selected", "selected");   
+            }
+            this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
+            this.submitListDialog.setAttribute("data-edit-index", editIndex);
+            this.addListDialog.showModal();
+        })
+
+        if(type==="task"){
+            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, listIndex+task);
+            checkedButton.addEventListener("click", () => {
+                list.taskList[task].toggleComplete();
+                console.log(list.taskList[task].isComplete);
+                if(list.taskList[task].isComplete == false){
+                    document.getElementById("checkIcon-"+listIndex+task).src = uncheckedIcon;
+                } else{
+                    document.getElementById("checkIcon-"+listIndex+task).src = checkedIcon;
+                }
+            })
+        }
+
+        name.textContent = this.item.taskList[index].name;
+        //when creating a new task, make it store the list index in the task? gets around list and task index issue
+        if(type==="task"){
+            entity.id = "task-"+item.listIndex+index;
+        } else{
+            entity.id = "list-"+index;
+        }
     }
 
 
@@ -84,7 +137,8 @@ export class DomHandler {
             });
 
             const editListButton = this.createButton("editList", "Edit List", editIcon, index);
-            const editIndex = index;
+            //why make new index?
+            //const editIndex = index;
             editListButton.addEventListener("click", () => {
                 this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
                 this.submitListDialog.setAttribute("data-edit-index", editIndex);
@@ -221,12 +275,13 @@ export class DomHandler {
             const taskDescInput = document.querySelector("#taskDescription").value;
             const taskDueDateInput = document.querySelector("#taskDueDate").value;
             if(this.submitTaskDialog.dataset.submitType==="submitNew"){
-                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex);
                 this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput);
+                console.log(taskInput.listIndex);
             }
             if(this.submitTaskDialog.dataset.submitType==="submitEdit"){
-                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput);
-                console.log(taskInput);
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex);
+                console.log(taskInput.listIndex);
                 this.listHandler.taskList[this.selectList.selectedIndex].replace(this.submitTaskDialog.dataset.editIndex ,taskInput);
                 console.log(this.listHandler.taskList[this.selectList.selectedIndex]);
             }
