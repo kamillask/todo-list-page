@@ -89,14 +89,14 @@ export class DomHandler {
         })
 
         if(type==="task"){
-            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, listIndex+task);
+            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, item.listIndex+index);
             checkedButton.addEventListener("click", () => {
                 item.taskList[task].toggleComplete();
                 console.log(item.taskList[task].isComplete);
                 if(item.taskList[task].isComplete == false){
-                    document.getElementById("checkIcon-"+listIndex+task).src = uncheckedIcon;
+                    document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
                 } else{
-                    document.getElementById("checkIcon-"+listIndex+task).src = checkedIcon;
+                    document.getElementById("checkIcon-"+item.listIndex+index).src = checkedIcon;
                 }
             })
             entity.appendChild(checkedButton);
@@ -120,7 +120,7 @@ export class DomHandler {
         if(type==="task"){
             const dueDate = this.createItem(("div", "taskDueDate"));
             dueDate.id = "taskDueDate-"+item.listIndex+index;
-            taskDueDate.textContent = item.taskList[task].dueDate;
+            taskDueDate.textContent = item.dueDate;
             main.appendChild(dueDate);
         }
         main.appendChild(controls);
@@ -173,6 +173,9 @@ export class DomHandler {
             // listMain.appendChild(listName);
             // listMain.appendChild(listControls);
             // listEntity.appendChild(listMain);
+
+
+            // console.log(this.listHandler.taskList[list]);
             this.showTasks(this.listHandler.taskList[list], listEntity);
             listContainer.appendChild(listEntity);
             index++;
@@ -182,7 +185,8 @@ export class DomHandler {
     showTasks(list, container){
         let index = 0;
         for(let task in list.taskList){
-            const taskEntity = this.createEntity("task", this.list.taskList[task], index);
+            console.log(list.taskList[task]);
+            const taskEntity = this.createEntity("task", list.taskList[task], index);
             // const taskEntity = this.createItem("div", "taskEntity");
             // const taskName = this.createItem("div", "task");
             // const taskControls = this.createItem("div", "taskControls");
