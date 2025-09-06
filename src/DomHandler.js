@@ -57,24 +57,15 @@ export class DomHandler {
         const deleteButton = this.createButton("delete", "Delete "+type, deleteIcon, index);
         deleteButton.addEventListener("click", () => {
             if(type==="list"){
-                this.deleteList(this.item.taskList[index]);
+                this.deleteList(this.listHandler.taskList[index]);
                 this.showLists();
             }
             if(type==="task"){
-                this.deleteTask(item, this.item.taskList[index]);
+                this.deleteTask(this.listHandler.taskList[item.listIndex], item);
                 this.showLists();
             }
             
         })
-
-        const addButton = this.createButton("addTaskToList", "Add a task to this list", addIconBox, index);
-        const selectedIndex = "select-"+index;
-        addButton.addEventListener("click", () => {
-            this.populateSelect();
-            document.getElementById(selectedIndex).setAttribute("selected", "selected");
-            this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
-            addTaskDialog.showModal();
-        });
 
         const editButton = this.createButton("edit"+type, "Edit "+type, editIcon, index);
         const editIndex = index;
@@ -89,11 +80,11 @@ export class DomHandler {
         })
 
         if(type==="task"){
-            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, item.listIndex+index);
+            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
             checkedButton.addEventListener("click", () => {
-                item.taskList[task].toggleComplete();
-                console.log(item.taskList[task].isComplete);
-                if(item.taskList[task].isComplete == false){
+                item.toggleComplete();
+                console.log(item.isComplete);
+                if(item.isComplete == false){
                     document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
                 } else{
                     document.getElementById("checkIcon-"+item.listIndex+index).src = checkedIcon;
@@ -110,11 +101,20 @@ export class DomHandler {
             entity.id = "list-"+index;
         }
 
-        
-
         controls.appendChild(editButton);
         controls.appendChild(deleteButton);
-        controls.appendChild(addButton);
+        if(type==="list"){
+            const addButton = this.createButton("addTaskToList", "Add a task to this list", addIconBox, index);
+            const selectedIndex = "select-"+index;
+            addButton.addEventListener("click", () => {
+                this.populateSelect();
+                document.getElementById(selectedIndex).setAttribute("selected", "selected");
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
+                addTaskDialog.showModal();
+            });
+            controls.appendChild(addButton);
+        }
+        
 
         main.appendChild(name);
         if(type==="task"){
@@ -135,47 +135,6 @@ export class DomHandler {
         let index = 0;
         for(let list in this.listHandler.taskList){
             const listEntity = this.createEntity("list", this.listHandler.taskList[list], index);
-            // const listEntity = this.createItem("div", "listEntity");
-            // const listName = this.createItem("div", "listName");
-            // const listControls = this.createItem("div", "listControls");
-            // const listMain = this.createItem("div", "listMain");
-
-
-            // const deleteListButton = this.createButton("delete", "Delete List", deleteIcon, index);
-            // deleteListButton.addEventListener("click", () => {
-            //     this.deleteList(this.listHandler.taskList[list]);
-            //     this.showLists();
-            // })
-
-            // const addTaskToListButton = this.createButton("addTaskToList", "Add a task to this List", addIconBox, index);
-            // const selectedIndex = "select-"+index;
-            // addTaskToListButton.addEventListener("click", () => {
-            //     this.populateSelect();
-            //     document.getElementById(selectedIndex).setAttribute("selected", "selected");
-            //     this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
-            //     addTaskDialog.showModal();
-            // });
-
-            // const editListButton = this.createButton("editList", "Edit List", editIcon, index);
-            // //why make new index?
-            // //const editIndex = index;
-            // editListButton.addEventListener("click", () => {
-            //     this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
-            //     this.submitListDialog.setAttribute("data-edit-index", editIndex);
-            //     this.addListDialog.showModal();
-            // })
-
-            // listName.textContent = this.listHandler.taskList[list].name;
-            // listEntity.id = "list-" + index;
-            // listControls.appendChild(editListButton);
-            // listControls.appendChild(deleteListButton);
-            // listControls.appendChild(addTaskToListButton);
-            // listMain.appendChild(listName);
-            // listMain.appendChild(listControls);
-            // listEntity.appendChild(listMain);
-
-
-            // console.log(this.listHandler.taskList[list]);
             this.showTasks(this.listHandler.taskList[list], listEntity);
             listContainer.appendChild(listEntity);
             index++;
@@ -187,55 +146,7 @@ export class DomHandler {
         for(let task in list.taskList){
             console.log(list.taskList[task]);
             const taskEntity = this.createEntity("task", list.taskList[task], index);
-            // const taskEntity = this.createItem("div", "taskEntity");
-            // const taskName = this.createItem("div", "task");
-            // const taskControls = this.createItem("div", "taskControls");
-            // const taskMain = this.createItem("div", "taskMain");
-
-            // // const taskDueDate = this.createItem(("div", "taskDueDate"));
-            // // taskDueDate.id = "taskDueDate-"+listIndex+index;
-            // // taskDueDate.textContent = list.taskList[task].dueDate;
-
-            // const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, listIndex+task);
-            // checkedButton.addEventListener("click", () => {
-            //     list.taskList[task].toggleComplete();
-            //     console.log(list.taskList[task].isComplete);
-            //     if(list.taskList[task].isComplete == false){
-            //         document.getElementById("checkIcon-"+listIndex+task).src = uncheckedIcon;
-            //     } else{
-            //         document.getElementById("checkIcon-"+listIndex+task).src = checkedIcon;
-            //     }
-            // })
-
-            
-            // taskEntity.id = "task-"+listIndex+index;
-            // taskName.textContent = list.taskList[task].name;
-
-            // const editTaskButton = this.createButton("editTask", "Edit Task", editIcon, task);
-            // const indexToEdit = index;
-            // editTaskButton.addEventListener("click", () => {
-            //     this.populateSelect();
-            //     document.getElementById("select-"+listIndex).setAttribute("selected", "selected");                
-            //     this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");               
-            //     this.submitTaskDialog.setAttribute("data-edit-index", indexToEdit);
-            //     addTaskDialog.showModal();
-            // });
-
-            // const deleteTaskButton = this.createButton("deleteTask", "Delete Task", deleteIcon, task);
-            // deleteTaskButton.addEventListener("click", () => {
-            //     this.deleteTask(list, list.taskList[task]);
-            //     this.showLists();
-            // })
-
             index++;
-
-            // taskEntity.appendChild(checkedButton);
-            // taskMain.appendChild(taskName);
-            // taskMain.appendChild(taskDueDate);
-            // taskControls.appendChild(editTaskButton);
-            // taskControls.appendChild(deleteTaskButton);
-            // taskEntity.appendChild(taskMain);
-            // taskEntity.appendChild(taskControls);
             container.appendChild(taskEntity);
         }
     }
