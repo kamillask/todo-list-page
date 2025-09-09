@@ -78,11 +78,16 @@ export class DomHandler {
         editButton.addEventListener("click", () => {
             if(type==="task"){
                 this.populateSelect();
-                document.getElementById("select-"+item.listIndex).setAttribute("selected", "selected");   
+                document.getElementById("select-"+item.listIndex).setAttribute("selected", "selected");
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");
+                this.submitTaskDialog.setAttribute("data-edit-index", editIndex);
+                this.addTaskDialog.showModal();   
             }
-            this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
-            this.submitListDialog.setAttribute("data-edit-index", editIndex);
-            this.addListDialog.showModal();
+            if(type==="list"){
+                this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
+                this.submitListDialog.setAttribute("data-edit-index", editIndex);
+                this.addListDialog.showModal();
+            }
         })
 
         if(type==="task"){
@@ -129,7 +134,6 @@ export class DomHandler {
             dueDate.textContent = item.dueDate;
             main.appendChild(dueDate);
         }
-        // main.appendChild(controls);
         
         entity.appendChild(main);
         entity.appendChild(controls);
