@@ -12,6 +12,7 @@ export class DomHandler {
     newTaskButton = document.querySelector("#newTaskButton");
     addListDialog = document.querySelector("#addListDialog");
     addTaskDialog = document.querySelector("#addTaskDialog");
+    expandTaskDialog = document.querySelector("#expandTaskDialog");
     cancelListDialog = document.querySelector("#cancelList");
     cancelTaskDialog = document.querySelector("#cancelTask");
     submitListDialog = document.querySelector("#submitListDialog");
@@ -48,7 +49,7 @@ export class DomHandler {
         return button;
     }
 
-    createEntity(type, item, index){ //type(list or task), and pass the list or task
+    createEntity(type, item, index){
         const entity = this.createItem("div", type+"Entity");
         const name = this.createItem("div", type+"Name");
         const controls = this.createItem("div", type+"Controls");
@@ -69,7 +70,12 @@ export class DomHandler {
 
         if(type==="task"){
             main.addEventListener("click", () => {
-                alert("clicked");
+                const viewTaskName = document.querySelector("#viewTaskName");
+                const viewTaskDescription = document.querySelector("#viewTaskDescription");
+                const viewTaskDueDate = document.querySelector("#viewTaskDueDate");
+                const viewTaskPriority = document.querySelector("#viewTaskPriority");
+                const viewTaskCompletion = document.querySelector("#viewTaskCompletion");
+                this.expandTaskDialog.showModal();
             })
         }
 
@@ -105,7 +111,6 @@ export class DomHandler {
         }
 
         name.textContent = item.name;
-        //when creating a new task, make it store the list index in the task? gets around list and task index issue
         if(type==="task"){
             entity.id = "task-"+item.listIndex+index;
         } else{
@@ -135,6 +140,10 @@ export class DomHandler {
             main.appendChild(dueDate);
         }
         
+        //WHY DOES THIS MAKE IT WORK?????????????????????????
+        entity.appendChild(this.expandTaskDialog);
+
+
         entity.appendChild(main);
         entity.appendChild(controls);
 
@@ -236,6 +245,7 @@ export class DomHandler {
             }
             this.showLists();
         });
+
     
         this.cancelTaskDialog.addEventListener("click", () => {
             this.addTaskDialog.close();

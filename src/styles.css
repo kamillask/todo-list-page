@@ -54,7 +54,7 @@ body {
     gap: 10px;
 }
 
-#addListDialog, #addTaskDialog {
+#addListDialog, #addTaskDialog, #expandTaskDialog {
     padding: 20px;
     font-size: 1.5rem;
     border-radius: 10px;
@@ -63,7 +63,7 @@ body {
     margin: auto;
 }
 
-#addListDialog::backdrop, #addTaskDialog::backdrop {
+#addListDialog::backdrop, #addTaskDialog::backdrop, #expandTaskDialog::backdrop {
     backdrop-filter: blur(1px);
 }
 
@@ -126,6 +126,12 @@ input{
     text-wrap: wrap;
     word-break: break-all;
     gap: 5px;
+    padding: 5px;
+}
+
+.taskMain:hover {
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px #888888;
 }
 
 
