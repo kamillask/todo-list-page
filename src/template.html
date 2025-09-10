@@ -46,6 +46,21 @@
                     <label for="dueDate">Due Date: </label>
                     <input type="date" name="taskDueDate" id="taskDueDate" required>
                 </div>
+                <fieldset>
+                    <legend>Select a priority</legend>
+                    <div class="entry">
+                        <label for="low">Low</label>
+                        <input type="radio" id="low" name="priority" value="low">
+                    </div>
+                    <div class="entry">
+                        <label for="medium">Medium</label>
+                        <input type="radio" id="medium" name="priority" value="medium">
+                    </div>
+                    <div class="entry">
+                        <label for="high">High</label>
+                        <input type="radio" id="high" name="priority" value="high">
+                    </div>
+                </fieldset>
                 <div class="closeSubmit">
                     <button id="cancelTask" value="cancel" formmethod="dialog">Cancel</button>
                     <button id="submitTaskDialog" data-submit-type="submitNew" data-edit-index="" value="default" formmethod="dialog">Submit</button>
@@ -55,6 +70,8 @@
     </div>
     <div id="listContainer">
         <dialog id="expandTaskDialog">
+            <button id="closeView">X</button>
+            <div class="view" id="viewListName"></div>
             <div class="view" id="viewTaskName">test
             </div>
             <div class="view" id="viewTaskDescription">

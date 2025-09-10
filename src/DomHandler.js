@@ -13,6 +13,7 @@ export class DomHandler {
     addListDialog = document.querySelector("#addListDialog");
     addTaskDialog = document.querySelector("#addTaskDialog");
     expandTaskDialog = document.querySelector("#expandTaskDialog");
+    closeView = document.querySelector("#closeView");
     cancelListDialog = document.querySelector("#cancelList");
     cancelTaskDialog = document.querySelector("#cancelTask");
     submitListDialog = document.querySelector("#submitListDialog");
@@ -70,11 +71,18 @@ export class DomHandler {
 
         if(type==="task"){
             main.addEventListener("click", () => {
+                const viewListName = document.querySelector("#viewListName");
                 const viewTaskName = document.querySelector("#viewTaskName");
                 const viewTaskDescription = document.querySelector("#viewTaskDescription");
                 const viewTaskDueDate = document.querySelector("#viewTaskDueDate");
                 const viewTaskPriority = document.querySelector("#viewTaskPriority");
                 const viewTaskCompletion = document.querySelector("#viewTaskCompletion");
+                viewListName.textContent = this.listHandler.taskList[item.listIndex].name;
+                viewTaskName.textContent = item.name;
+                viewTaskDescription.textContent = item.desc;
+                viewTaskDueDate.textContent = item.dueDate;
+                viewTaskPriority.textContent = item.priority;
+                viewTaskCompletion.textContent = item.isComplete;
                 this.expandTaskDialog.showModal();
             })
         }
@@ -250,5 +258,9 @@ export class DomHandler {
         this.cancelTaskDialog.addEventListener("click", () => {
             this.addTaskDialog.close();
         });
+
+        this.closeView.addEventListener("click", () => {
+            this.expandTaskDialog.close();
+        })
     }
 }

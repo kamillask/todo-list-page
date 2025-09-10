@@ -1,10 +1,11 @@
 export class Task {
-    constructor(name, desc, dueDate, listIndex){
+    constructor(name, desc, dueDate, listIndex, priority){
         this.name = name;
         this.desc = desc;
         this.dueDate = dueDate;
         this.listIndex = listIndex;
         this.isComplete = false;
+        this.priority = priority;
     }
 
     createTask(newName, newDesc, newDate, newIndex){
