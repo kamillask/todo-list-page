@@ -108,7 +108,6 @@ export class DomHandler {
             const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
             checkedButton.addEventListener("click", () => {
                 item.toggleComplete();
-                console.log(item.isComplete);
                 if(item.isComplete == false){
                     document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
                 } else{
@@ -120,7 +119,8 @@ export class DomHandler {
 
         name.textContent = item.name;
         if(type==="task"){
-            entity.id = "task-"+item.listIndex+index;
+            console.log(item.listIndex)
+            entity.id = "task-"+item.listIndex + "-" +index;
         } else{
             entity.id = "list-"+index;
         }
@@ -173,7 +173,6 @@ export class DomHandler {
     showTasks(list, container){
         let index = 0;
         for(let task in list.taskList){
-            console.log(list.taskList[task]);
             const taskEntity = this.createEntity("task", list.taskList[task], index);
             index++;
             container.appendChild(taskEntity);
@@ -240,16 +239,14 @@ export class DomHandler {
             const taskNameInput = document.querySelector("#taskName").value;
             const taskDescInput = document.querySelector("#taskDescription").value;
             const taskDueDateInput = document.querySelector("#taskDueDate").value;
+            const taskPriorityInput = document.querySelector('input[name="priority"]:checked').value;
             if(this.submitTaskDialog.dataset.submitType==="submitNew"){
-                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex);
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex, taskPriorityInput);
                 this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput);
-                console.log(taskInput.listIndex);
             }
             if(this.submitTaskDialog.dataset.submitType==="submitEdit"){
-                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex);
-                console.log(taskInput.listIndex);
+                const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex, taskPriorityInput);
                 this.listHandler.taskList[this.selectList.selectedIndex].replace(this.submitTaskDialog.dataset.editIndex ,taskInput);
-                console.log(this.listHandler.taskList[this.selectList.selectedIndex]);
             }
             this.showLists();
         });

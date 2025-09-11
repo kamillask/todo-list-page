@@ -8,8 +8,8 @@ export class Task {
         this.priority = priority;
     }
 
-    createTask(newName, newDesc, newDate, newIndex){
-        return new Task(newName, newDesc, newDate, newIndex);
+    createTask(newName, newDesc, newDate, newPriority, newIndex){
+        return new Task(newName, newDesc, newDate, newPriority, newIndex);
     }
 
     toggleComplete(){
