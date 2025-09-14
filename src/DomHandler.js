@@ -1,5 +1,3 @@
-//expand todo
-
 import deleteIcon from "./images/delete_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import addIconBox from "./images/add_box_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
 import editIcon from "./images/edit_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png"
@@ -85,26 +83,6 @@ export class DomHandler {
                 viewTaskCompletion.textContent = item.isComplete;
                 this.expandTaskDialog.showModal();
             })
-        }
-
-        const editButton = this.createButton("edit"+type, "Edit "+type, editIcon, index);
-        const editIndex = index;
-        editButton.addEventListener("click", () => {
-            if(type==="task"){
-                this.populateSelect();
-                document.getElementById("select-"+item.listIndex).setAttribute("selected", "selected");
-                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");
-                this.submitTaskDialog.setAttribute("data-edit-index", editIndex);
-                this.addTaskDialog.showModal();   
-            }
-            if(type==="list"){
-                this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
-                this.submitListDialog.setAttribute("data-edit-index", editIndex);
-                this.addListDialog.showModal();
-            }
-        })
-
-        if(type==="task"){
             const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
             checkedButton.addEventListener("click", () => {
                 item.toggleComplete();
@@ -115,11 +93,49 @@ export class DomHandler {
                 }
             })
             entity.appendChild(checkedButton);
+            if(item.priority==="low"){
+                entity.style.borderLeft = "5px solid yellow";
+            } else if(item.priority==="medium"){
+                entity.style.borderLeft = "5px solid orange";
+            } else{
+                entity.style.borderLeft = "5px solid red";
+            }
         }
+
+        const editButton = this.createButton("edit"+type, "Edit "+type, editIcon, index);
+        const editIndex = index;
+        editButton.addEventListener("click", () => {
+            if(type==="task"){
+                this.populateSelect();
+                document.getElementById("select-"+item.listIndex).setAttribute("selected", "selected");
+                this.submitTaskDialog.setAttribute("data-submit-type", "submitEdit");
+                this.submitTaskDialog.setAttribute("data-edit-index", editIndex);
+                this.setInputs("submitEdit", "task");
+                this.addTaskDialog.showModal();   
+            }
+            if(type==="list"){
+                this.submitListDialog.setAttribute("data-submit-type", "submitEdit");
+                this.submitListDialog.setAttribute("data-edit-index", editIndex);
+                this.setInputs("submitEdit", "list");
+                this.addListDialog.showModal();
+            }
+        })
+
+        // if(type==="task"){
+        //     const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
+        //     checkedButton.addEventListener("click", () => {
+        //         item.toggleComplete();
+        //         if(item.isComplete == false){
+        //             document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
+        //         } else{
+        //             document.getElementById("checkIcon-"+item.listIndex+index).src = checkedIcon;
+        //         }
+        //     })
+        //     entity.appendChild(checkedButton);
+        // }
 
         name.textContent = item.name;
         if(type==="task"){
-            console.log(item.listIndex)
             entity.id = "task-"+item.listIndex + "-" +index;
         } else{
             entity.id = "list-"+index;
@@ -139,7 +155,6 @@ export class DomHandler {
             controls.appendChild(addButton);
         }
         
-
         main.appendChild(name);
         if(type==="task"){
             const dueDate = this.createItem(("div", "taskDueDate"));
@@ -148,10 +163,7 @@ export class DomHandler {
             main.appendChild(dueDate);
         }
         
-        //WHY DOES THIS MAKE IT WORK?????????????????????????
         entity.appendChild(this.expandTaskDialog);
-
-
         entity.appendChild(main);
         entity.appendChild(controls);
 
@@ -199,13 +211,37 @@ export class DomHandler {
         list.deleteFromList(task);
     }
 
-    expandTask(task){
-
+    setInputs(submitType, itemType){
+        if(itemType==="task"){
+            const setNameInput = document.querySelector("#taskName");
+            const setDescInput = document.querySelector("#taskDescription");
+            const setDueDateInput = document.querySelector("#taskDueDate");
+            const setPriorityInput = document.querySelector('input[name="priority"]:checked');
+            if(submitType==="submitNew"){
+                setNameInput.value = "";
+                setDescInput.value = "";
+                setDueDateInput.value = "";
+                setPriorityInput.value = "low";
+            } else{
+                setNameInput.value = this.listHandler.taskList[this.selectList.selectedIndex].taskList[this.submitTaskDialog.dataset.editIndex].name;
+                setDescInput.value = this.listHandler.taskList[this.selectList.selectedIndex].taskList[this.submitTaskDialog.dataset.editIndex].desc;
+                setDueDateInput.value = this.listHandler.taskList[this.selectList.selectedIndex].taskList[this.submitTaskDialog.dataset.editIndex].dueDate;
+                setPriorityInput.value = this.listHandler.taskList[this.selectList.selectedIndex].taskList[this.submitTaskDialog.dataset.editIndex].priority;
+            }
+        } else{
+            const setListInput = document.querySelector("#listName");
+            if(submitType==="submitNew"){
+                setListInput.value = "";
+            } else{
+                setListInput.value = this.listHandler.taskList[this.submitListDialog.dataset.editIndex].name;
+            }
+        }
     }
 
     setUpEventListeners(){
         this.newListButton.addEventListener("click", () => {
             this.submitListDialog.setAttribute("data-submit-type", "submitNew");
+            this.setInputs("submitNew", "list");
             addListDialog.showModal();
         });
         
@@ -232,6 +268,7 @@ export class DomHandler {
         this.newTaskButton.addEventListener("click", () => {
             this.populateSelect();
             this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
+            this.setInputs("submitNew", "task");
             addTaskDialog.showModal();
         });
     
@@ -240,6 +277,9 @@ export class DomHandler {
             const taskDescInput = document.querySelector("#taskDescription").value;
             const taskDueDateInput = document.querySelector("#taskDueDate").value;
             const taskPriorityInput = document.querySelector('input[name="priority"]:checked').value;
+            if(taskNameInput==="" || taskDescInput==="" || taskDueDateInput===""){
+                return;
+            }
             if(this.submitTaskDialog.dataset.submitType==="submitNew"){
                 const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex, taskPriorityInput);
                 this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput);
