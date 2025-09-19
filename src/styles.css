@@ -12,7 +12,7 @@ html {
 
 body {
     display: grid;
-    grid-template-columns: 20vw;
+    grid-template-columns: 15vw;
     grid-template-rows: 10vh 90vh;
 }
 
@@ -44,6 +44,18 @@ body {
     justify-content: flex-start;
     align-items: center;
     padding: 10px;
+}
+
+#sidebar button {
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    background-color: transparent;
+    color: #323377;
+    font-size: 3vh;
+}
+
+#sidebar button:hover{
+    color: pink;
 }
 
 #listContainer {

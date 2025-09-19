@@ -18,6 +18,7 @@ export class DomHandler {
     submitTaskDialog = document.querySelector("#submitTaskDialog");
     selectList = document.querySelector("#selectList");
     listContainer = document.querySelector("#listContainer");
+    submitDataButton = document.querySelector("#submitdata");
 
     constructor(listHandler, taskHandler){
         this.listHandler = listHandler;
@@ -203,12 +204,19 @@ export class DomHandler {
         }
     }
 
+    storeData(){
+        const listHandlerJSON = JSON.stringify(this.listHandler);
+        localStorage.setItem("listContainerStorage", listHandlerJSON);
+    }
+
     deleteList(list){
         this.listHandler.deleteFromList(list);
+        this.storeData();
     }
 
     deleteTask(list, task){
         list.deleteFromList(task);
+        this.storeData();
     }
 
     setInputs(submitType, itemType){
@@ -238,6 +246,8 @@ export class DomHandler {
         }
     }
 
+    
+
     setUpEventListeners(){
         this.newListButton.addEventListener("click", () => {
             this.submitListDialog.setAttribute("data-submit-type", "submitNew");
@@ -257,7 +267,7 @@ export class DomHandler {
                 const listInput = this.listHandler.createList(listNameInput);
                 this.listHandler.addToList(listInput);
             }
-            
+            this.storeData();
             this.showLists();
         });
         
@@ -288,6 +298,7 @@ export class DomHandler {
                 const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex, taskPriorityInput);
                 this.listHandler.taskList[this.selectList.selectedIndex].replace(this.submitTaskDialog.dataset.editIndex ,taskInput);
             }
+            this.storeData();
             this.showLists();
         });
 
@@ -299,5 +310,7 @@ export class DomHandler {
         this.closeView.addEventListener("click", () => {
             this.expandTaskDialog.close();
         })
+
+        this.submitDataButton.addEventListener("click", this.storeData());
     }
 }
