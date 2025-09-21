@@ -10,13 +10,16 @@ listContainer.taskList[0].addToList(new Task("Contact Dr. Hastra", "Talk about y
 listContainer.taskList[0].addToList(new Task("Unwind", "Take some time to youself", "2025-09-18", 0, "low"));
 const taskHandler = new Task("task handler");
 if(localStorage.getItem("listContainerStorage")!==null){
-    console.log(typeof localStorage.getItem("listContainerStorage"));
     const listContainerJSON = JSON.parse(localStorage.getItem("listContainerStorage"));
-    const domHandler = new DomHandler(listContainerJSON, taskHandler);
+    console.log("listcontainerJSON is "+listContainerJSON.taskList[0].taskList[0].name);
+    const listContainerNew = new List("Container");
+    Object.assign(listContainerNew, listContainerJSON);
+    const domHandler = new DomHandler(listContainerNew, taskHandler);
     domHandler.setUpEventListeners();
     domHandler.showLists();
 } else{
     const domHandler = new DomHandler(listContainer, taskHandler);
+    console.log("listcontainer is "+Object.prototype.toString.call(listContainer));
     domHandler.setUpEventListeners();
     domHandler.showLists();
 }
