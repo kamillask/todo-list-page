@@ -122,19 +122,6 @@ export class DomHandler {
             }
         })
 
-        // if(type==="task"){
-        //     const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
-        //     checkedButton.addEventListener("click", () => {
-        //         item.toggleComplete();
-        //         if(item.isComplete == false){
-        //             document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
-        //         } else{
-        //             document.getElementById("checkIcon-"+item.listIndex+index).src = checkedIcon;
-        //         }
-        //     })
-        //     entity.appendChild(checkedButton);
-        // }
-
         name.textContent = item.name;
         if(type==="task"){
             entity.id = "task-"+item.listIndex + "-" +index;

@@ -11,18 +11,25 @@ listContainer.taskList[0].addToList(new Task("Unwind", "Take some time to yousel
 const taskHandler = new Task("task handler");
 if(localStorage.getItem("listContainerStorage")!==null){
     const listContainerJSON = JSON.parse(localStorage.getItem("listContainerStorage"));
-    console.log("listcontainerJSON is "+listContainerJSON.taskList[0].taskList[0].name);
     const listContainerNew = new List("Container");
     Object.assign(listContainerNew, listContainerJSON);
+
+    for(let list in listContainerNew.taskList){
+        const newList = new List(listContainerNew.taskList[list].name);
+        Object.assign(newList, listContainerNew.taskList[list]);
+        listContainerNew.taskList[list] = newList;
+        for(let task in newList.taskList){
+            const newTask = new Task(newList.taskList[task].name, newList.taskList[task].desc, newList.taskList[task].dueDate, newList.taskList[task].listIndex, newList.taskList[task].priority);
+            Object.assign(newTask, newList.taskList[task]);
+            newList.taskList[task] = newTask;
+        }
+    }
     const domHandler = new DomHandler(listContainerNew, taskHandler);
     domHandler.setUpEventListeners();
     domHandler.showLists();
 } else{
     const domHandler = new DomHandler(listContainer, taskHandler);
-    console.log("listcontainer is "+Object.prototype.toString.call(listContainer));
+    console.log("listcontainer is " + Object.prototype.toString.call(listContainer));
     domHandler.setUpEventListeners();
     domHandler.showLists();
 }
-//const domHandler = new DomHandler(localStorage.getItem(listContainerStorage), taskHandler);
-//domHandler.setUpEventListeners();
-//domHandler.showLists();
