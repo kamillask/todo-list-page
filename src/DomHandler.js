@@ -278,7 +278,16 @@ export class DomHandler {
                 return;
             }
             if(this.submitTaskDialog.dataset.submitType==="submitNew"){
+                //there are no lists
+                if(this.selectList.options.length===0){
+                    const defaultList = this.listHandler.createList("Default");
+                    this.listHandler.addToList(defaultList);
+                    this.populateSelect();
+                    this.selectList.value = "Default";
+                }
+                console.log(this.listHandler.taskList);
                 const taskInput = this.taskHandler.createTask(taskNameInput, taskDescInput, taskDueDateInput, this.selectList.selectedIndex, taskPriorityInput);
+                console.log(taskInput);
                 this.listHandler.taskList[this.selectList.selectedIndex].addToList(taskInput);
             }
             if(this.submitTaskDialog.dataset.submitType==="submitEdit"){
