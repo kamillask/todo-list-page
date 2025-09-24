@@ -84,9 +84,11 @@ export class DomHandler {
                 viewTaskCompletion.textContent = item.isComplete;
                 this.expandTaskDialog.showModal();
             })
-            const checkedButton = this.createButton("check", "Mark as completed", uncheckedIcon, String(item.listIndex) + String(index));
+            const iconTrueFalse = item.isComplete ? checkedIcon : uncheckedIcon;
+            const checkedButton = this.createButton("check", "Mark as completed", iconTrueFalse, String(item.listIndex) + String(index));
             checkedButton.addEventListener("click", () => {
                 item.toggleComplete();
+                this.storeData();
                 if(item.isComplete == false){
                     document.getElementById("checkIcon-"+item.listIndex+index).src = uncheckedIcon;
                 } else{
@@ -136,6 +138,7 @@ export class DomHandler {
             const selectedIndex = "select-"+index;
             addButton.addEventListener("click", () => {
                 this.populateSelect();
+                this.setInputs("submitNew", "task");
                 document.getElementById(selectedIndex).setAttribute("selected", "selected");
                 this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
                 addTaskDialog.showModal();
@@ -263,6 +266,7 @@ export class DomHandler {
         })
         
         this.newTaskButton.addEventListener("click", () => {
+            alert("new task from list");
             this.populateSelect();
             this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
             this.setInputs("submitNew", "task");
@@ -306,7 +310,5 @@ export class DomHandler {
         this.closeView.addEventListener("click", () => {
             this.expandTaskDialog.close();
         })
-
-        this.submitDataButton.addEventListener("click", this.storeData());
     }
 }

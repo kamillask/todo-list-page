@@ -60,7 +60,8 @@ body {
 
 #listContainer {
     border: 1px solid purple;
-    display: flex;
+    display: grid;
+    grid-template-columns: 25vw 25vw 25vw;
     padding: 10px;
     background-image: url("./images/coolbackgrounds-topography-micron.svg");
     gap: 10px;
@@ -93,7 +94,7 @@ input{
     background-color: rgba(255, 255, 255, 0.8);
     display: flex;
     flex-direction: column;
-    width: 30vw;
+    /* width: 30vw; */
     gap: 5px;
     height: min-content;
 }
