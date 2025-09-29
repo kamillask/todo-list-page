@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="8264ea32f661aacc5288.png">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <title>Todo List</title>
+<script defer src="main.js"></script></head>
+<body>
+    <div id="banner">
+        <div class="bannerName">Donezo</div>
+        <div class="tagline">Simplify tasks. Amplify results.</div>
+    </div>
+    <div id="sidebar">
+        <button id="newListButton">New List</button>
+        <dialog id="addListDialog">
+            <form action="#" formmethod="dialog">
+                <div class="entry">
+                    <label for="listName">List Name: </label>
+                    <input type="text" name="listName" id="listName" required>
+                </div>
+                <div class="closeSubmit">
+                    <button id="cancelList" value="cancel" formmethod="dialog">Cancel</button>
+                    <button id="submitListDialog" data-submit-type="submitNew" data-edit-index="" value="default" formmethod="dialog">Submit</button>
+                </div>
+            </form>
+        </dialog>
+        
+        <button id="newTaskButton">New Task</button>
+        <dialog id="addTaskDialog">
+            <form action="#" formmethod="dialog">
+                <div class="dropdown">
+                    <label for="selectList">Select a List to add to: </label>
+                    <select name="selectList" id="selectList"></select>
+                </div>
+                <div class="entry">
+                    <label for="taskName">Task Name: </label>
+                    <input type="text" name="taskName" id="taskName" required>
+                </div>
+                <div class="entry">
+                    <label for="taskDescription">Description: </label>
+                    <input type="text" name="taskDescription" id="taskDescription" required>
+                </div>
+                <div class="entry">
+                    <label for="dueDate">Due Date: </label>
+                    <input type="date" name="taskDueDate" id="taskDueDate" required>
+                </div>
+                <fieldset>
+                    <legend>Select a priority</legend>
+                    <div class="entry">
+                        <input type="radio" id="low" name="priority" value="Low" checked>
+                        <label for="low">Low</label>
+                    </div>
+                    <div class="entry">
+                        <input type="radio" id="medium" name="priority" value="Medium">
+                        <label for="medium">Medium</label>
+                    </div>
+                    <div class="entry">
+                        <input type="radio" id="high" name="priority" value="High">
+                        <label for="high">High</label>
+                    </div>
+                </fieldset>
+                <div class="closeSubmit">
+                    <button id="cancelTask" value="cancel" formmethod="dialog">Cancel</button>
+                    <button id="submitTaskDialog" data-submit-type="submitNew" data-edit-index="" value="default" formmethod="dialog">Submit</button>
+                </div>
+            </form>
+        </dialog>
+    </div>
+    <div id="listContainer">
+        <dialog id="expandTaskDialog">
+            <div class="viewTopBar">
+                <div class="view" id="viewListName"></div>
+                <button id="closeView"><img src="602ac34d246ae9d8ff8a.png" alt=""></button>
+            </div>
+            <div class="view" id="viewTaskName">
+            </div>
+            <div class="view" id="viewTaskDescription">
+            </div>
+            <div class="view" id="viewTaskDueDate">
+            </div>
+            <div class="view" id="viewTaskPriority">
+            </div>
+            <div class="view" id="viewTaskCompletion">
+            </div>
+        </dialog>
+    </div>
+</body>
+</html>
