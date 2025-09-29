@@ -49,16 +49,16 @@
                 <fieldset>
                     <legend>Select a priority</legend>
                     <div class="entry">
+                        <input type="radio" id="low" name="priority" value="Low" checked>
                         <label for="low">Low</label>
-                        <input type="radio" id="low" name="priority" value="low" checked>
                     </div>
                     <div class="entry">
+                        <input type="radio" id="medium" name="priority" value="Medium">
                         <label for="medium">Medium</label>
-                        <input type="radio" id="medium" name="priority" value="medium">
                     </div>
                     <div class="entry">
+                        <input type="radio" id="high" name="priority" value="High">
                         <label for="high">High</label>
-                        <input type="radio" id="high" name="priority" value="high">
                     </div>
                 </fieldset>
                 <div class="closeSubmit">
@@ -70,9 +70,11 @@
     </div>
     <div id="listContainer">
         <dialog id="expandTaskDialog">
-            <button id="closeView">X</button>
-            <div class="view" id="viewListName"></div>
-            <div class="view" id="viewTaskName">test
+            <div class="viewTopBar">
+                <div class="view" id="viewListName"></div>
+                <button id="closeView"><img src="images\close_24dp_1F1F1F_FILL0_wght400_GRAD0_opsz24.png" alt=""></button>
+            </div>
+            <div class="view" id="viewTaskName">
             </div>
             <div class="view" id="viewTaskDescription">
             </div>

@@ -8,8 +8,8 @@ export class Task {
         this.priority = priority;
     }
 
-    createTask(newName, newDesc, newDate, newPriority, newIndex){
-        return new Task(newName, newDesc, newDate, newPriority, newIndex);
+    createTask(newName, newDesc, newDate, newIndex, newPriority){
+        return new Task(newName, newDesc, newDate, newIndex, newPriority);
     }
 
     toggleComplete(){
@@ -17,6 +17,14 @@ export class Task {
             this.isComplete=false;
         } else{
             this.isComplete=true;
+        }
+    }
+
+    taskStatus(){
+        if(this.isComplete==true){
+            return "Complete";
+        } else{
+            return "Not Complete";
         }
     }
 }

@@ -81,7 +81,7 @@ export class DomHandler {
                 viewTaskDescription.textContent = item.desc;
                 viewTaskDueDate.textContent = item.dueDate;
                 viewTaskPriority.textContent = item.priority;
-                viewTaskCompletion.textContent = item.isComplete;
+                viewTaskCompletion.textContent = item.taskStatus();
                 this.expandTaskDialog.showModal();
             })
             const iconTrueFalse = item.isComplete ? checkedIcon : uncheckedIcon;
@@ -96,9 +96,9 @@ export class DomHandler {
                 }
             })
             entity.appendChild(checkedButton);
-            if(item.priority==="low"){
+            if(item.priority==="Low"){
                 entity.style.borderLeft = "5px solid yellow";
-            } else if(item.priority==="medium"){
+            } else if(item.priority==="Medium"){
                 entity.style.borderLeft = "5px solid orange";
             } else{
                 entity.style.borderLeft = "5px solid red";
@@ -266,7 +266,6 @@ export class DomHandler {
         })
         
         this.newTaskButton.addEventListener("click", () => {
-            alert("new task from list");
             this.populateSelect();
             this.submitTaskDialog.setAttribute("data-submit-type", "submitNew");
             this.setInputs("submitNew", "task");
